@@ -78,8 +78,13 @@ public class QuestionService {
         Question questionObject = generateQuestion(question, optionA, optionB, optionC, optionD, answer,
                 field, subject, topic, STATUS_ENABLE, LANGUAGE_ENGLISH);
 
-        Question savedQuestion = questionRepo.save(questionObject);
-        return new StatusResponse().setSuccess(savedQuestion);
+        try {
+            Question savedQuestion = questionRepo.save(questionObject);
+            return new StatusResponse().setSuccess(savedQuestion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new StatusResponse().setError(e.getMessage());
+        }
     }
 
     public List<Question> getQuestionFor(Long field) {

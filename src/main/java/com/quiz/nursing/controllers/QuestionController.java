@@ -20,7 +20,7 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @PostMapping("/save")
+    @PostMapping()
     public ResponseEntity<String> saveNewQuestion(@RequestBody QuestionRequest questionRequest, @RequestParam Long field) {
         LOG.info("saveNewQuestion() called with: questionRequest = [" + questionRequest + "], field = [" + field + "]");
 
