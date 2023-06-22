@@ -57,6 +57,9 @@ public class Question {
     @Column(name = "language", nullable = false)
     private Long language;
 
+    @Column(name = "last_added_in_quiz", nullable = false)
+    private Timestamp lastAddedInQuiz;
+
     //<editor-fold desc="Getter - Setter">
     public Long getId() {
         return id;
@@ -202,8 +205,16 @@ public class Question {
         return this;
     }
 
-    //</editor-fold>
+    public Timestamp getLastAddedInQuiz() {
+        return lastAddedInQuiz;
+    }
 
+    public Question setLastAddedInQuiz(Timestamp lastAddedInQuiz) {
+        this.lastAddedInQuiz = lastAddedInQuiz;
+        return this;
+    }
+
+    //</editor-fold>
 
     @Override
     public String toString() {
@@ -223,7 +234,8 @@ public class Question {
                 ", createdBy=" + createdBy +
                 ", remarks='" + remarks + '\'' +
                 ", status=" + status +
-                ", language='" + language + '\'' +
+                ", language=" + language +
+                ", lastAddedInQuiz=" + lastAddedInQuiz +
                 '}';
     }
 }

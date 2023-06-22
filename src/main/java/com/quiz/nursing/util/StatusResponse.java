@@ -38,7 +38,7 @@ public class StatusResponse {
     public String toString() {
         return "StatusResponse{" +
                 "isSuccess=" + isSuccess +
-                ", object=" + object +
+                ", object=" + (object != null ? object.toString() : object) +
                 ", errorMessage='" + errorMessage + '\'' +
                 '}';
     }
@@ -55,6 +55,4 @@ public class StatusResponse {
         this.errorMessage = message;
         return this;
     }
-
-
 }

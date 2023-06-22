@@ -22,4 +22,9 @@ class QuestionServiceTest {
     void getQuestionFor() {
         questionService.getQuestionFor(1L).forEach(System.out::println);
     }
+
+    @Test
+    void getQuestionForQuiz() {
+        questionService.getQuestionFroQuiz(1L, 20).forEach(System.out::println);
+    }
 }

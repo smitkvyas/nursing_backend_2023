@@ -5,20 +5,22 @@ import com.quiz.nursing.repos.QuestionRepo;
 import com.quiz.nursing.util.StatusResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class QuestionService {
 
-    private static final Logger logger = LogManager.getLogger(QuestionService.class);
+    private static final Logger LOG = LogManager.getLogger(QuestionService.class);
 
-    @Autowired
-    private QuestionRepo questionRepo;
+    private final QuestionRepo questionRepo;
 
     //<editor-fold desc="Statuses">
     public final Long STATUS_ENABLE = 1L;
@@ -32,9 +34,18 @@ public class QuestionService {
     //<editor-fold desc="Create By">
     public final Long SYSTEM = 1L;
 
+    public QuestionService(QuestionRepo questionRepo) {
+        this.questionRepo = questionRepo;
+    }
+
     //</editor-fold>
+
     private Question generateQuestion(String question, String optionA, String optionB, String optionC, String optionD, String answer,
                                       Long field, Long subject, Long topic, Long status, Long language) {
+        LOG.info("generateQuestion() called with: question = [" + question + "], optionA = [" + optionA + "], " +
+                "optionB = [" + optionB + "], optionC = [" + optionC + "], optionD = [" + optionD + "], " +
+                "answer = [" + answer + "], field = [" + field + "], subject = [" + subject + "], " +
+                "topic = [" + topic + "], status = [" + status + "], language = [" + language + "]");
         return new Question()
                 .setCreatedOn(Timestamp.valueOf(LocalDateTime.now()))
                 .setUpdatedOn(Timestamp.valueOf(LocalDateTime.now()))
@@ -45,16 +56,24 @@ public class QuestionService {
 
     public StatusResponse saveNewQuestion(String question, String optionA, String optionB,
                                           String optionC, String optionD, String answer, Long field) {
+        LOG.info("saveNewQuestion() called with: question = [" + question + "], optionA = [" + optionA + "], optionB = " +
+                "[" + optionB + "], optionC = [" + optionC + "], optionD = [" + optionD + "], answer = [" + answer + "], field = [" + field + "]");
         return saveNewQuestion(question, optionA, optionB, optionC, optionD, answer, field, null, null);
     }
 
     public StatusResponse saveNewQuestion(String question, String optionA, String optionB,
                                           String optionC, String optionD, String answer, Long field, Long subject) {
+        LOG.info("saveNewQuestion() called with: question = [" + question + "], optionA = [" + optionA + "], optionB =" +
+                " [" + optionB + "], optionC = [" + optionC + "], optionD = [" + optionD + "], answer = [" + answer + "]," +
+                " field = [" + field + "], subject = [" + subject + "]");
         return saveNewQuestion(question, optionA, optionB, optionC, optionD, answer, field, subject, null);
     }
 
     public StatusResponse saveNewQuestion(String question, String optionA, String optionB,
                                           String optionC, String optionD, String answer, Long field, Long subject, Long topic) {
+        LOG.info("saveNewQuestion() called with: question = [" + question + "], optionA = [" + optionA + "], optionB =" +
+                " [" + optionB + "], optionC = [" + optionC + "], optionD = [" + optionD + "], answer = [" + answer + "], " +
+                "field = [" + field + "], subject = [" + subject + "], topic = [" + topic + "]");
         Question questionObject = generateQuestion(question, optionA, optionB, optionC, optionD, answer,
                 field, subject, topic, STATUS_ENABLE, LANGUAGE_ENGLISH);
 
@@ -63,7 +82,20 @@ public class QuestionService {
     }
 
     public List<Question> getQuestionFor(Long field) {
-        return questionRepo.findByFieldAndStatusAndLanguage(field,STATUS_ENABLE,LANGUAGE_ENGLISH);
+        LOG.info("getQuestionFor() called with: field = [" + field + "]");
+        return questionRepo.findByFieldAndStatusAndLanguage(field, STATUS_ENABLE, LANGUAGE_ENGLISH);
     }
 
+
+    public List<Question> getQuestionFroQuiz(Long field, int count) {
+        LOG.info("getQuestionFroQuiz() called with: field = [" + field + "], count = [" + count + "]");
+
+        Instant endDate = Instant.now().minus(90, ChronoUnit.DAYS);
+        return questionRepo.findByFieldAndLastAddedInQuizBeforeOrLastAddedInQuizIsNull(field, Timestamp.from(endDate), PageRequest.of(0, count));
+    }
+
+    public Question updateQuestion(Question question) {
+        LOG.info("updateQuestion() called with: question = [" + question + "]");
+        return questionRepo.save(question);
+    }
 }
