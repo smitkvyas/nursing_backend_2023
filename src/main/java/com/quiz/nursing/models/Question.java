@@ -57,7 +57,7 @@ public class Question {
     @Column(name = "language", nullable = false)
     private Long language;
 
-    @Column(name = "last_added_in_quiz", nullable = false)
+    @Column(name = "last_added_in_quiz")
     private Timestamp lastAddedInQuiz;
 
     //<editor-fold desc="Getter - Setter">

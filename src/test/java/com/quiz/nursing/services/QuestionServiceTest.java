@@ -14,8 +14,10 @@ class QuestionServiceTest {
 
     @Test
     void saveNewQuestion() {
-        System.out.println(questionService.saveNewQuestion("Test Q", "OA", "OB",
-                "OC", "OD", "A", 1L));
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(questionService.saveNewQuestion("Test Q", "OA", "OB",
+                    "OC", "OD", "A", 1L));
+        }
     }
 
     @Test

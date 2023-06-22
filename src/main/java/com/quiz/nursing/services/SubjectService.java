@@ -1,6 +1,5 @@
 package com.quiz.nursing.services;
 
-import ch.qos.logback.core.pattern.util.AlmostAsIsEscapeUtil;
 import com.quiz.nursing.models.Subject;
 import com.quiz.nursing.repos.SubjectRepo;
 import com.quiz.nursing.util.StatusResponse;
@@ -33,7 +32,7 @@ public class SubjectService {
             return new StatusResponse().setSuccess(savedSubject);
         }
 
-        return new StatusResponse().setErrorMessage("Subject " + name + " already exists");
+        return new StatusResponse().setMessage("Subject " + name + " already exists");
     }
 
     public Iterable<Subject> getAllSubjects() {

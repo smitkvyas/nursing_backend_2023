@@ -30,7 +30,7 @@ public class TopicService {
             return new StatusResponse().setSuccess(savedTopic);
         }
 
-        return new StatusResponse().setErrorMessage("Topic " + name + " already exists");
+        return new StatusResponse().setMessage("Topic " + name + " already exists");
     }
 
     public Iterable<Topic> getAllTopics(){

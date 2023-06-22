@@ -5,7 +5,7 @@ public class StatusResponse {
 
     private boolean isSuccess;
     private Object object;
-    private String errorMessage;
+    private String message;
 
     public boolean isSuccess() {
         return isSuccess;
@@ -25,12 +25,12 @@ public class StatusResponse {
         return this;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public StatusResponse setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public StatusResponse setMessage(String message) {
+        this.message = message;
         return this;
     }
 
@@ -39,20 +39,20 @@ public class StatusResponse {
         return "StatusResponse{" +
                 "isSuccess=" + isSuccess +
                 ", object=" + (object != null ? object.toString() : object) +
-                ", errorMessage='" + errorMessage + '\'' +
+                ", errorMessage='" + message + '\'' +
                 '}';
     }
 
     public StatusResponse setSuccess(Object object) {
         this.isSuccess = true;
         this.object = object;
-        this.errorMessage = "";
+        this.message = "";
         return this;
     }
 
     public StatusResponse setError(String message) {
         this.isSuccess = false;
-        this.errorMessage = message;
+        this.message = message;
         return this;
     }
 }

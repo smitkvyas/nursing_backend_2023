@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -97,5 +98,15 @@ public class QuestionService {
     public Question updateQuestion(Question question) {
         LOG.info("updateQuestion() called with: question = [" + question + "]");
         return questionRepo.save(question);
+    }
+
+    public List<Question> getQuestionById(List<String> questionsIds) {
+        LOG.info("getQuestionById() called with: questionsIds = [" + questionsIds + "]");
+        List<Question> questions = new ArrayList<>();
+        questionsIds.forEach(id -> {
+            Optional<Question> question = questionRepo.findById(Long.valueOf(id));
+            question.ifPresent(questions::add);
+        });
+        return questions;
     }
 }

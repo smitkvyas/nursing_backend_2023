@@ -29,7 +29,7 @@ public class FieldService {
             return new StatusResponse().setSuccess(savedField);
         }
 
-        return new StatusResponse().setErrorMessage("Field " + name + " already exists");
+        return new StatusResponse().setMessage("Field " + name + " already exists");
     }
 
     public Iterable<Field> getAllFields(){
