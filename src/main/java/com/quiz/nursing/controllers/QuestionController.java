@@ -3,6 +3,7 @@ package com.quiz.nursing.controllers;
 import com.quiz.nursing.models.request.QuestionRequest;
 import com.quiz.nursing.services.QuestionService;
 import com.quiz.nursing.util.StatusResponse;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class QuestionController {
     }
 
     @PostMapping()
+    @ApiOperation("Save new question")
     public ResponseEntity<String> saveNewQuestion(@RequestBody QuestionRequest questionRequest, @RequestParam Long field) {
         LOG.info("saveNewQuestion() called with: questionRequest = [" + questionRequest + "], field = [" + field + "]");
 

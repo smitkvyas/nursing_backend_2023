@@ -5,13 +5,14 @@ import com.quiz.nursing.models.request.SaveActRequest;
 import com.quiz.nursing.services.NursingAbbreviationService;
 import com.quiz.nursing.services.NursingActsService;
 import com.quiz.nursing.util.StatusResponse;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/abbreviations")
+@RequestMapping("/api/abbreviations/nursing")
 public class AbbreviationController {
 
 
@@ -23,12 +24,14 @@ public class AbbreviationController {
     }
 
     @GetMapping("/active")
+    @ApiOperation("Get active nursing abbreviations")
     public ResponseEntity<Object> getActiveAbbreviations() {
         LOG.info("getActiveAbbreviations() called");
         return ResponseEntity.ok(nursingAbbreviationService.getActiveAbbreviations());
     }
 
     @PostMapping
+    @ApiOperation("Add new nursing abbreviations")
     public ResponseEntity<String> saveAbbreviation(@RequestBody SaveAbbreviationRequest saveAbbreviationRequest) {
         LOG.info("saveAbbreviation() called with: saveAbbreviationRequest = [" + saveAbbreviationRequest + "]");
         StatusResponse statusResponse = nursingAbbreviationService.saveAbbreviation(saveAbbreviationRequest.getShortForm(), saveAbbreviationRequest.getFullForm());
